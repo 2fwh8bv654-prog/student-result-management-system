@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Student Result Management System</title>
+
+  <style>
+
+    body {
+
+      font-family: Arial, sans-serif;
+
+      background: #f1f5f9;
+
+      margin: 0;
+
+      padding: 20px;
+
+    }
+
+    .container {
+
+      max-width: 700px;
+
+      margin: auto;
+
+      background: white;
+
+      padding: 20px;
+
+      border-radius: 12px;
+
+      box-shadow: 0 2px 8px #ccc;
+
+    }
+
+    h1 {
+
+      text-align: center;
+
+      color: #1d4ed8;
+
+    }
+
+    input, button {
+
+      box-sizing: border-box;
+
+      width: 100%;
+
+      padding: 12px;
+
+      margin: 6px 0;
+
+      font-size: 16px;
+
+    }
+
+    button {
+
+      background: #2563eb;
+
+      color: white;
+
+      border: none;
+
+      border-radius: 6px;
+
+    }
+
+    table {
+
+      width: 100%;
+
+      border-collapse: collapse;
+
+      margin-top: 20px;
+
+    }
+
+    th, td {
+
+      border: 1px solid #ddd;
+
+      padding: 8px;
+
+      text-align: center;
+
+    }
+
+    th {
+
+      background: #dbeafe;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Student Result Management System</h1>
+
+    <p>Enter student details and scores below.</p>
+
+    <input id="studentName" placeholder="Student Name">
+
+    <input id="studentId" placeholder="Student ID">
+
+    <input id="course" placeholder="Course Name">
+
+    <input id="score" type="number" min="0" max="100" placeholder="Score (0-100)">
+
+    <button onclick="addResult()">Add Student Result</button>
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>Name</th>
+
+          <th>Student ID</th>
+
+          <th>Course</th>
+
+          <th>Score</th>
+
+          <th>Grade</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="results"></tbody>
+
+    </table>
+
+    <p id="message"></p>
+
+  </div>
+
+  <script>
+
+    // Arrays store the student results.
+
+    let studentNames = [];
+
+    let studentIds = [];
+
+    let courses = [];
+
+    let scores = [];
+
+    let grades = [];
+
+    function addResult() {
+
+      const name = document.getElementById("studentName").value.trim();
+
+      const id = document.getElementById("studentId").value.trim();
+
+      const course = document.getElementById("course").value.trim();
+
+      const scoreText = document.getElementById("score").value;
+
+      const score = Number(scoreText);
+
+      const message = document.getElementById("message");
+
+      if (!name || !id || !course || scoreText === "") {
+
+        message.textContent = "Please fill in every field.";
+
+        return;
+
+      }
+
+      if (score < 0 || score > 100) {
+
+        message.textContent = "Score must be between 0 and 100.";
+
+        return;
+
+      }
+
+      let grade;
+
+      if (score >= 80) grade = "A";
+
+      else if (score >= 70) grade = "B";
+
+      else if (score >= 60) grade = "C";
+
+      else if (score >= 50) grade = "D";
+
+      else grade = "F";
+
+      studentNames.push(name);
+
+      studentIds.push(id);
+
+      courses.push(course);
+
+      scores.push(score);
+
+      grades.push(grade);
+
+      displayResults();
+
+      document.getElementById("studentName").value = "";
+
+      document.getElementById("studentId").value = "";
+
+      document.getElementById("course").value = "";
+
+      document.getElementById("score").value = "";
+
+      message.textContent = "Result added successfully!";
+
+    }
+
+    function displayResults() {
+
+      const table = document.getElementById("results");
+
+      table.innerHTML = "";
+
+      for (let i = 0; i < studentNames.length; i++) {
+
+        const row = document.createElement("tr");
+
+        [studentNames[i], studentIds[i], courses[i],
+
+         scores[i], grades[i]].forEach(value => {
+
+          const cell = document.createElement("td");
+
+          cell.textContent = value;
+
+          row.appendChild(cell);
+
+        });
+
+        table.appendChild(row);
+
+      }
+
+    }
+
+  </script>
+
+</body>
+
+</html>
